@@ -11,17 +11,17 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
   @Column({ length: 100 })
-  Name: string;
+  name: string;
 
   @Column()
   @IsEmail()
   email: string;
 
   @Column({ length: 255 })
-  Password: string;
+  password: string;
 
   @CreateDateColumn()
   created_at?: Date;
