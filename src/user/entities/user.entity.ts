@@ -1,6 +1,14 @@
 import { IsEmail } from 'class-validator';
-import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   Id: number;
@@ -10,9 +18,9 @@ export class User {
 
   @Column()
   @IsEmail()
-  email: string
+  email: string;
 
-  @Column({length: 255})
+  @Column({ length: 255 })
   Password: string;
 
   @CreateDateColumn()
@@ -20,7 +28,7 @@ export class User {
 
   @UpdateDateColumn()
   uploaded_at?: Date;
-  
+
   @DeleteDateColumn()
   excluded_at?: Date;
 }
