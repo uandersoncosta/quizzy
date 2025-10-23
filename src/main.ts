@@ -8,10 +8,9 @@ async function bootstrap() {
   const PORT = process.env.PORT ?? 3000
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Quizzy')
+    .setDescription('O Quizzy é uma API robusta e intuitiva desenvolvida para criar, gerenciar e personalizar sistemas de quiz voltados para estudantes. Utilizando inteligência artificial, o Quizzy adapta perguntas, fornece explicações detalhadas e sugere conteúdos personalizados para potencializar o aprendizado')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
