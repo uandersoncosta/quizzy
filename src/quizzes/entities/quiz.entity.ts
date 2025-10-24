@@ -34,11 +34,11 @@ export class Quiz {
   category: string;
 
   @Column({
-    type: 'enum',
+    type: 'text',
     enum: Difficulty,
     default: Difficulty.FACIL,
   })
-  difficulty: string;
+  difficulty: Difficulty;
 
   @Column({ default: true })
   is_active: boolean;

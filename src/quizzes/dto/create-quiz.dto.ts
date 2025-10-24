@@ -32,5 +32,5 @@ export class CreateQuizDto {
   @IsNotEmpty()
   @IsEnum(Difficulty)
   @ApiProperty({ example: Difficulty.FACIL, enum: Difficulty })
-  difficulty: string;
+  difficulty: Difficulty;
 }
