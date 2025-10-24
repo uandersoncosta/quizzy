@@ -37,8 +37,16 @@ export class QuizzesService {
     return quiz;
   }
 
-  findAll() {
-    return `This action returns all quizzes`;
+  async findAll(id: number) {
+    const user = await this.usersRepository.findOne(id);
+
+    if (!user) {
+      throw new ConflictException('Este usuário não existe.');
+    }
+
+    const quizzes = await this.quizRepository.find();
+
+    return quizzes;
   }
 
   findOne(id: number) {
