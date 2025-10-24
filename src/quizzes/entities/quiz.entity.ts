@@ -27,8 +27,8 @@ export class Quiz {
   @Column({ length: 150 })
   title: string;
 
-  @Column({ length: 150 })
-  description: string;
+  @Column({ length: 150, nullable: true })
+  description?: string;
 
   @Column({ length: 50 })
   category: string;
@@ -44,8 +44,8 @@ export class Quiz {
   is_active: boolean;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at?: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at?: Date;
 }

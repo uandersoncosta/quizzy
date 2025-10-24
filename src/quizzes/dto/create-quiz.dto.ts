@@ -1,11 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsPositive, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsPositive,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { Difficulty } from '../entities/quiz.entity';
 
 export class CreateQuizDto {
-
   @IsPositive()
   @ApiProperty({ example: 1 })
-  userId: number
+  userId: number;
 
   @IsNotEmpty()
   @MinLength(5)
@@ -14,7 +20,9 @@ export class CreateQuizDto {
   title: string;
 
   @MaxLength(255)
-  @ApiProperty({ example: 'Criar um quiz sobre funcionalidades dos comandos SQL' })
+  @ApiProperty({
+    example: 'Criar um quiz sobre funcionalidades dos comandos SQL',
+  })
   description?: string;
 
   @IsNotEmpty()
@@ -22,5 +30,7 @@ export class CreateQuizDto {
   category: string;
 
   @IsNotEmpty()
+  @IsEnum(Difficulty)
+  @ApiProperty({ example: Difficulty.FACIL, enum: Difficulty })
   difficulty: string;
 }
