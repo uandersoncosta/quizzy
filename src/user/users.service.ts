@@ -4,28 +4,28 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUsersDto } from './dto/create-users.dto';
+import { UpdateUsersDto } from './dto/update-users.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { Users } from './entities/users.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Users) private readonly userRepository: Repository<Users>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUsersDto: CreateUsersDto) {
     const newUserData = {
-      name: createUserDto.name,
-      email: createUserDto.email,
-      password: createUserDto.password,
+      name: createUsersDto.name,
+      email: createUsersDto.email,
+      password: createUsersDto.password,
       created_at: new Date(),
     };
 
     const emailExiste = await this.userRepository.findOneBy({
-      email: createUserDto.email,
+      email: createUsersDto.email,
     });
 
     if (emailExiste) {
@@ -50,7 +50,7 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number, updateUsersDto: UpdateUsersDto) {
     return `This action updates a #${id} user`;
   }
 

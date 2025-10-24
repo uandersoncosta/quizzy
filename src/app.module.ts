@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
+import { UsersModule } from './user/users.module';
+import { Users } from './user/entities/users.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'dbQuizzy.sqlite',
-      entities: [User],
+      entities: [Users],
       synchronize: true,
     }),
-    UserModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
