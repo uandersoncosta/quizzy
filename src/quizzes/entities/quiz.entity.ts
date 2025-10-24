@@ -22,7 +22,7 @@ export class Quiz {
 
   @ManyToOne(() => Users, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
-  userId: number;
+  user: Users;
 
   @Column({ length: 150 })
   title: string;
