@@ -46,7 +46,7 @@ export class QuizzesService {
 
     const quizzes = await this.quizRepository.find();
 
-    return quizzes;
+    return { quizzes };
   }
 
   findOne(id: number) {

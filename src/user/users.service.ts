@@ -39,7 +39,7 @@ export class UsersService {
 
   async findAll() {
     const user = await this.userRepository.find();
-    return user;
+    return { user };
   }
 
   async findOne(id: number) {
