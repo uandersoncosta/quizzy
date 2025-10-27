@@ -96,7 +96,19 @@ export class QuizzesService {
     return { quiz };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} quiz`;
+  async remove(userId: number, quizId: number) {
+    const user = await this.usersRepository.findOne(userId);
+
+    if (!user) {
+      throw new ConflictException('Este usuário não existe.');
+    }
+
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+
+    if (!quiz) {
+      throw new ConflictException('Quiz não encontrado para este usuário.');
+    }
+
+    return await this.quizRepository.remove(quiz);
   }
 }
