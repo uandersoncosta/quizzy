@@ -49,8 +49,24 @@ export class QuizzesService {
     return { quizzes };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} quiz`;
+  async findOne(id: number, quizId: number) {
+    const user = await this.usersRepository.findOne(id);
+
+    if (!user) {
+      throw new ConflictException('Este usuário não existe.');
+    }
+
+    const quiz = await this.quizRepository.findOne({
+      where: {
+        id: quizId,
+      },
+    });
+
+    if (!quiz) {
+      throw new ConflictException('Quiz não encontrado para este usuário.');
+    }
+
+    return { quiz };
   }
 
   update(id: number, updateQuizDto: UpdateQuizDto) {
