@@ -30,9 +30,13 @@ export class QuizzesController {
     return this.quizzesService.findOne(+id, +userId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
-    return this.quizzesService.update(+id, updateQuizDto);
+  @Patch(':userId/:quizId')
+  update(
+    @Param('userId') userId: string,
+    @Param('quizId') quizId: string,
+    @Body() updateQuizDto: UpdateQuizDto,
+  ) {
+    return this.quizzesService.update(+userId, +quizId, updateQuizDto);
   }
 
   @Delete(':id')
