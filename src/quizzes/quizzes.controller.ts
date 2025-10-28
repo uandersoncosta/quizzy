@@ -11,7 +11,7 @@ import { QuizzesService } from './quizzes.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 
-@Controller('quizzes')
+@Controller('users/:userId/quizzes')
 export class QuizzesController {
   constructor(private readonly quizzesService: QuizzesService) {}
 
@@ -25,12 +25,12 @@ export class QuizzesController {
     return this.quizzesService.findAll(+id);
   }
 
-  @Get(':userid/:quizId')
+  @Get(':quizId')
   findOne(@Param('userid') id: string, @Param('quizId') userId: string) {
     return this.quizzesService.findOne(+id, +userId);
   }
 
-  @Patch(':userId/:quizId')
+  @Patch(':quizId')
   update(
     @Param('userId') userId: string,
     @Param('quizId') quizId: string,
@@ -39,7 +39,7 @@ export class QuizzesController {
     return this.quizzesService.update(+userId, +quizId, updateQuizDto);
   }
 
-  @Delete(':userId/:quizId')
+  @Delete(':quizId')
   remove(@Param('userId') userId: string, @Param('quizId') quizId: string) {
     return this.quizzesService.remove(+userId, +quizId);
   }
