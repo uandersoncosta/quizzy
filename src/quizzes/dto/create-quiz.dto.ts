@@ -9,10 +9,6 @@ import {
 import { Difficulty } from '../entities/quiz.entity';
 
 export class CreateQuizDto {
-  @IsPositive()
-  @ApiProperty({ example: 1 })
-  userId: number;
-
   @IsNotEmpty()
   @MinLength(5)
   @MaxLength(150)
