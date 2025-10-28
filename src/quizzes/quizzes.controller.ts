@@ -16,8 +16,11 @@ export class QuizzesController {
   constructor(private readonly quizzesService: QuizzesService) {}
 
   @Post()
-  create(@Body() createQuizDto: CreateQuizDto) {
-    return this.quizzesService.create(createQuizDto);
+  create(
+    @Param('userId') userId: string,
+    @Body() createQuizDto: CreateQuizDto,
+  ) {
+    return this.quizzesService.create(+userId, createQuizDto);
   }
 
   @Get(':userid')

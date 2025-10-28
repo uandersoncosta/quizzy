@@ -15,8 +15,8 @@ export class QuizzesService {
     private readonly usersRepository: UsersService,
   ) {}
 
-  async create(createQuizDto: CreateQuizDto) {
-    const { userId, title, category, difficulty, description } = createQuizDto;
+  async create(userId: number, createQuizDto: CreateQuizDto) {
+    const { title, category, difficulty, description } = createQuizDto;
 
     const user = await this.usersRepository.findOne(userId);
 
