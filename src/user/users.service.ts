@@ -50,11 +50,34 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUsersDto: UpdateUsersDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUsersDto: UpdateUsersDto) {
+    const newDados = {
+      name: updateUsersDto?.name,
+      password: updateUsersDto?.password,
+    };
+
+    const newUser = await this.userRepository.preload({
+      id,
+      uploaded_at: new Date(),
+      ...newDados,
+    });
+
+    if (!newUser) {
+      throw new NotFoundException('Este usuário não existe.');
+    }
+
+    const user = this.userRepository.save(newUser);
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const removeUser = await this.userRepository.findOneBy({ id });
+
+    if (!removeUser) {
+      throw new NotFoundException('Este usuário não existe');
+    }
+
+    const user = this.userRepository.remove(removeUser);
   }
 }
