@@ -41,7 +41,7 @@ export class Question {
   })
   question_type: QuestionType;
 
-  @Column({ type: 'jsonb' })
+  @Column({ type: 'text' })
   options: QuestionOptions;
 
   @Column({ length: 1 })
