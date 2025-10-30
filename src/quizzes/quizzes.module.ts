@@ -9,5 +9,6 @@ import { UsersModule } from 'src/user/users.module';
   imports: [TypeOrmModule.forFeature([Quiz]), UsersModule],
   controllers: [QuizzesController],
   providers: [QuizzesService],
+  exports: [QuizzesService],
 })
 export class QuizzesModule {}
