@@ -1,4 +1,4 @@
-<img align="center" src="public/Quizzy.png" alt="QUIZZY" width="500"/>
+<img align="center" src="public/Quizzy.png" alt="QUIZZY"/>
 
 # 🧠 Quizzy API
 
