@@ -18,31 +18,32 @@ export class QuestionsController {
   @Post()
   create(
     @Param('quizId') quizId: string,
-    @Body() createQuestionDto: CreateQuestionDto,
+    @Body() createQuestionDto: CreateQuestionDto[],
   ) {
-    return this.questionsService.create(createQuestionDto);
+    return this.questionsService.create(+quizId, createQuestionDto);
   }
 
   @Get()
   findAll(@Param('quizId') quizId: string) {
-    return this.questionsService.findAll();
+    return this.questionsService.findAll(+quizId);
   }
 
   @Get(':id')
-  findOne(@Param('quizId') quizId: string) {
-    return this.questionsService.findOne(+id);
+  findOne(@Param('quizId') quizId: string, @Param('id') id: string) {
+    return this.questionsService.findOne(+quizId, +id);
   }
 
   @Patch(':id')
   update(
     @Param('quizId') quizId: string,
+    @Param('id') id: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
-    return this.questionsService.update(+id, updateQuestionDto);
+    return this.questionsService.update(+quizId, +id, updateQuestionDto);
   }
 
   @Delete(':id')
-  remove(@Param('quizId') quizId: string) {
-    return this.questionsService.remove(+id);
+  remove(@Param('quizId') quizId: string, @Param('id') id: string) {
+    return this.questionsService.remove(+quizId, +id);
   }
 }
