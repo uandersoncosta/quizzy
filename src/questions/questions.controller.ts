@@ -10,12 +10,14 @@ import {
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('quizzes/:quizId/questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Post()
+  @ApiBody({ type: [CreateQuestionDto] })
   create(
     @Param('quizId') quizId: string,
     @Body() createQuestionDto: CreateQuestionDto[],

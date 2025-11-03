@@ -3,7 +3,6 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Repository } from 'typeorm';
 import { Question } from './entities/question.entity';
-import { QuizzesService } from 'src/quizzes/quizzes.service';
 import { Quiz } from 'src/quizzes/entities/quiz.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -18,7 +17,7 @@ export class QuestionsService {
   ) {}
 
   async create(quizId: number, createQuestionDto: CreateQuestionDto[]) {
-    const quiz = this.quizRepository.findOne({ where: { id: quizId } });
+    const quiz = await this.quizRepository.findOne({ where: { id: quizId } });
 
     if (!quiz) {
       throw new NotFoundException('Quiz não encontrado!');
@@ -26,7 +25,7 @@ export class QuestionsService {
 
     const question = createQuestionDto.map((question) => {
       return this.questionRepository.create({
-        quiz: { id: quiz },
+        quiz,
         ...question,
       });
     });
