@@ -23,13 +23,13 @@ export class QuizzesController {
     return this.quizzesService.create(+userId, createQuizDto);
   }
 
-  @Get(':userid')
-  findAll(@Param('userid') id: number) {
+  @Get()
+  findAll(@Param('userId') id: number) {
     return this.quizzesService.findAll(+id);
   }
 
   @Get(':quizId')
-  findOne(@Param('userid') id: string, @Param('quizId') userId: string) {
+  findOne(@Param('userId') id: string, @Param('quizId') userId: string) {
     return this.quizzesService.findOne(+id, +userId);
   }
 
