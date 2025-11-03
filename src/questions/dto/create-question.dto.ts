@@ -31,6 +31,10 @@ export class CreateQuestionDto {
   })
   options: QuestionOptions;
 
+  @MinLength(2)
+  @ApiProperty({ example: 'A' })
+  correct_answer: string;
+
   @IsNotEmpty()
   @MinLength(10)
   @MaxLength(150)
