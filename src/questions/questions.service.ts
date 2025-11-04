@@ -33,8 +33,16 @@ export class QuestionsService {
     return this.questionRepository.save(question);
   }
 
-  findAll(quizId: number) {
-    return `This action returns all questions`;
+  async findAll(quizId: number) {
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+
+    if (!quiz) {
+      throw new NotFoundException('Quiz não encontrado!');
+    }
+
+    const question = await this.questionRepository.find();
+
+    return { question };
   }
 
   findOne(quizId: number, id: number) {
