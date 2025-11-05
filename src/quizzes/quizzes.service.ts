@@ -38,8 +38,8 @@ export class QuizzesService {
     return quiz;
   }
 
-  async findAll(id: number) {
-    const user = await this.usersRepository.findOne(id);
+  async findAll(userId: number) {
+    const user = await this.usersRepository.findOne(userId);
 
     if (!user) {
       throw new ConflictException('Este usuário não existe.');
@@ -50,8 +50,8 @@ export class QuizzesService {
     return { quizzes };
   }
 
-  async findOne(id: number, quizId: number) {
-    const user = await this.usersRepository.findOne(id);
+  async findOne(userId: number, quizId: number) {
+    const user = await this.usersRepository.findOne(userId);
 
     if (!user) {
       throw new ConflictException('Este usuário não existe.');
