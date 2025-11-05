@@ -30,22 +30,22 @@ export class QuestionsController {
     return this.questionsService.findAll(+quizId);
   }
 
-  @Get(':id')
-  findOne(@Param('quizId') quizId: string, @Param('id') id: string) {
-    return this.questionsService.findOne(+quizId, +id);
+  @Get(':questionId')
+  findOne(@Param('quizId') quizId: string, @Param('questionId') questionId: string) {
+    return this.questionsService.findOne(+quizId, +questionId);
   }
 
-  @Patch(':id')
+  @Patch(':questionId')
   update(
     @Param('quizId') quizId: string,
-    @Param('id') id: string,
+    @Param('questionId') questionId: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
-    return this.questionsService.update(+quizId, +id, updateQuestionDto);
+    return this.questionsService.update(+quizId, +questionId, updateQuestionDto);
   }
 
-  @Delete(':id')
-  remove(@Param('quizId') quizId: string, @Param('id') id: string) {
-    return this.questionsService.remove(+quizId, +id);
+  @Delete(':questionId')
+  remove(@Param('quizId') quizId: string, @Param('questionId') questionId: string) {
+    return this.questionsService.remove(+quizId, +questionId);
   }
 }
