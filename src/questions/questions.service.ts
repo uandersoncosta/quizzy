@@ -45,15 +45,28 @@ export class QuestionsService {
     return { question };
   }
 
-  findOne(quizId: number, id: number) {
-    return `This action returns a #${id} question`;
+  async findOne(quizId: number, questionId: number) {
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+    const question = await this.questionRepository.findOneBy({
+      id: questionId,
+    });
+
+    if (!quiz && !question) {
+      throw new NotFoundException('Quiz ou Question não encontrado!');
+    }
+
+    return { question };
   }
 
-  update(quizId: number, id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
+  update(
+    quizId: number,
+    questionId: number,
+    updateQuestionDto: UpdateQuestionDto,
+  ) {
+    return `This action updates a #${questionId} question`;
   }
 
-  remove(quizId: number, id: number) {
-    return `This action removes a #${id} question`;
+  remove(quizId: number, questionId: number) {
+    return `This action removes a #${questionId} question`;
   }
 }
