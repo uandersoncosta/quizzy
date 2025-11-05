@@ -41,7 +41,7 @@ export class Question {
   })
   question_type: QuestionType;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'simple-json' })
   options: QuestionOptions;
 
   @Column({ length: 1 })

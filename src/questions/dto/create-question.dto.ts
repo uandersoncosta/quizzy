@@ -27,7 +27,6 @@ export class CreateQuestionDto {
       C: 'Data Query Language',
       D: 'Data Control Language',
     },
-    description: 'Alternativas da questão',
   })
   options: QuestionOptions;
 
