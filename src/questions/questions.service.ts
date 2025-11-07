@@ -58,12 +58,49 @@ export class QuestionsService {
     return { question };
   }
 
-  update(
+  async update(
     quizId: number,
     questionId: number,
     updateQuestionDto: UpdateQuestionDto,
   ) {
-    return `This action updates a #${questionId} question`;
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+    if (!quiz) throw new NotFoundException('Quiz não encontrado!');
+
+    const question = await this.questionRepository.findOneBy({
+      id: questionId,
+    });
+    if (!question) throw new NotFoundException('Question não encontrado!');
+
+    // Garante que question.options é um objeto (evita problemas se for null/undefined/string)
+    const currentOptions =
+      question.options && typeof question.options === 'object'
+        ? question.options
+        : {};
+
+    // Se vier options no DTO, faz merge; se não vier, mantém as atuais
+    const optionsMerged = updateQuestionDto?.options
+      ? { ...currentOptions, ...updateQuestionDto.options }
+      : currentOptions;
+
+    // Monta o payload final usando os valores atuais como fallback
+    const questionEdited = {
+      question_text: updateQuestionDto?.question_text ?? question.question_text,
+      options: optionsMerged,
+      // mantém correct_answer do DB (não permita alteração)
+      correct_answer: question.correct_answer,
+      explanation: updateQuestionDto?.explanation ?? question.explanation,
+      updated_at: new Date(),
+    };
+
+    // Use create/merge + save (ou preload + checagem). Aqui uso merge + save direto:
+    const mergedEntity = this.questionRepository.create({
+      ...question, // valores atuais
+      ...questionEdited, // sobrescreve com o que veio
+    });
+
+    const saved = await this.questionRepository.save(mergedEntity);
+
+    return { question: saved };
   }
 
   remove(quizId: number, questionId: number) {
