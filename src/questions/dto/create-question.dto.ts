@@ -1,6 +1,33 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsObject,
+  IsString,
+  Length,
+  MaxLength,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { QuestionOptions, QuestionType } from '../entities/question.entity';
+import { Type } from 'class-transformer';
+
+class QuestionOptionsDto {
+  @IsString()
+  @Length(3, 150)
+  A: string;
+
+  @IsString()
+  @Length(3, 150)
+  B: string;
+
+  @IsString()
+  @Length(3, 150)
+  C: string;
+
+  @IsString()
+  @Length(3, 150)
+  D: string;
+}
 
 export class CreateQuestionDto {
   @IsNotEmpty()
@@ -18,8 +45,9 @@ export class CreateQuestionDto {
   question_type: QuestionType;
 
   @IsNotEmpty()
-  @MinLength(5)
-  @MaxLength(150)
+  @IsObject()
+  @ValidateNested()
+  @Type(() => QuestionOptionsDto)
   @ApiProperty({
     example: {
       A: 'Data Definition Language',
@@ -28,9 +56,9 @@ export class CreateQuestionDto {
       D: 'Data Control Language',
     },
   })
-  options: QuestionOptions;
+  options: QuestionOptionsDto;
 
-  @MinLength(2)
+  @MinLength(1)
   @ApiProperty({ example: 'A' })
   correct_answer: string;
 
