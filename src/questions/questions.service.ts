@@ -64,43 +64,42 @@ export class QuestionsService {
     updateQuestionDto: UpdateQuestionDto,
   ) {
     const quiz = await this.quizRepository.findOneBy({ id: quizId });
-    if (!quiz) throw new NotFoundException('Quiz não encontrado!');
-
-    const question = await this.questionRepository.findOneBy({
-      id: questionId,
+    const question = await this.questionRepository.findOne({
+      where: { id: questionId, quiz: { id: quizId } },
     });
-    if (!question) throw new NotFoundException('Question não encontrado!');
 
-    // Garante que question.options é um objeto (evita problemas se for null/undefined/string)
-    const currentOptions =
-      question.options && typeof question.options === 'object'
-        ? question.options
-        : {};
+    if (!quiz) {
+      throw new NotFoundException(`Quiz com ID ${quizId} não encontrado`);
+    }
 
-    // Se vier options no DTO, faz merge; se não vier, mantém as atuais
-    const optionsMerged = updateQuestionDto?.options
-      ? { ...currentOptions, ...updateQuestionDto.options }
-      : currentOptions;
+    if (!question) {
+      throw new NotFoundException(
+        `Questão com ID ${questionId} não encontrada para este quiz`,
+      );
+    }
 
-    // Monta o payload final usando os valores atuais como fallback
-    const questionEdited = {
+    const editedQuestion = {
       question_text: updateQuestionDto?.question_text ?? question.question_text,
-      options: optionsMerged,
-      // mantém correct_answer do DB (não permita alteração)
-      correct_answer: question.correct_answer,
+      correct_answer:
+        updateQuestionDto?.correct_answer ?? question.correct_answer,
       explanation: updateQuestionDto?.explanation ?? question.explanation,
-      updated_at: new Date(),
+      options: {
+        A: updateQuestionDto?.options?.A ?? question.options.A,
+        B: updateQuestionDto?.options?.B ?? question.options.B,
+        C: updateQuestionDto?.options?.C ?? question.options.C,
+        D: updateQuestionDto?.options?.D ?? question.options.D,
+      },
     };
 
-    // Use create/merge + save (ou preload + checagem). Aqui uso merge + save direto:
-    const mergedEntity = this.questionRepository.create({
-      ...question, // valores atuais
-      ...questionEdited, // sobrescreve com o que veio
-    });
+    // const newQuestion = await this.questionRepository.preload({
+    //   id: questionId,
+    //   updated_at: new Date(),
+    //   ...editedQuestion,
+    // });
 
-    const saved = await this.questionRepository.save(mergedEntity);
+    Object.assign(question, editedQuestion);
 
-    return { question: saved };
+    return await this.questionRepository.save(question);
   }
 
   remove(quizId: number, questionId: number) {
