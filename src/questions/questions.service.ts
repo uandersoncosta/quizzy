@@ -102,7 +102,17 @@ export class QuestionsService {
     return await this.questionRepository.save(question);
   }
 
-  remove(quizId: number, questionId: number) {
-    return `This action removes a #${questionId} question`;
+  async remove(quizId: number, questionId: number) {
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+    const question = await this.questionRepository.findOneBy({
+      id: questionId,
+    });
+
+    if (!quiz) throw new NotFoundException('Quiz não encontrado.');
+    if (!question) throw new NotFoundException('Question não encontrado.');
+
+    const removed = await this.questionRepository.remove(question);
+
+    return { removed };
   }
 }
