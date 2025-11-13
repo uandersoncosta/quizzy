@@ -22,16 +22,16 @@ export class Attemp {
   @JoinColumn({ name: 'quizId' })
   quizId: Quiz;
 
-  @Column({ length: 100 })
+  @Column('int')
   score: number;
 
-  @Column({ length: 100 })
+  @Column('int')
   total_questions: number;
 
-  @Column({ length: 100 })
+  @Column('int')
   correct_anwser: number;
 
-  @Column({ length: 100 })
+  @Column('int')
   time_spent: number;
 
   @UpdateDateColumn()
