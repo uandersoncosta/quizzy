@@ -7,13 +7,14 @@ import { Quiz } from './quizzes/entities/quiz.entity';
 import { QuestionsModule } from './questions/questions.module';
 import { Question } from './questions/entities/question.entity';
 import { AttempsModule } from './attemps/attemps.module';
+import { Attemp } from './attemps/entities/attemp.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'dbQuizzy.sqlite',
-      entities: [Users, Quiz, Question],
+      entities: [Users, Quiz, Question, Attemp],
       synchronize: true,
     }),
     UsersModule,
