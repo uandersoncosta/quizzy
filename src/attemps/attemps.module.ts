@@ -3,11 +3,11 @@ import { AttempsService } from './attemps.service';
 import { AttempsController } from './attemps.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Attemp } from './entities/attemp.entity';
-import { UsersModule } from 'src/user/users.module';
-import { QuizzesModule } from 'src/quizzes/quizzes.module';
+import { Quiz } from 'src/quizzes/entities/quiz.entity';
+import { Users } from 'src/user/entities/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Attemp]), UsersModule, QuizzesModule],
+  imports: [TypeOrmModule.forFeature([Attemp, Quiz, Users])],
   controllers: [AttempsController],
   providers: [AttempsService],
 })
