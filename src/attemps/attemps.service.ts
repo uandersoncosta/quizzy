@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAttempDto } from './dto/create-attemp.dto';
 import { UpdateAttempDto } from './dto/update-attemp.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,8 +20,31 @@ export class AttempsService {
     private readonly userRepository: Repository<Users>,
   ) {}
 
-  create(userId: number, quizId: number, createAttempDto: CreateAttempDto) {
-    return 'This action adds a new attemp';
+  async create(
+    userId: number,
+    quizId: number,
+    createAttempDto: CreateAttempDto,
+  ) {
+    const { score, completed_at, correct_anwser, time_spent, total_questions } =
+      createAttempDto;
+    const user = await this.userRepository.findOneBy({ id: userId });
+    const quiz = await this.userRepository.findOneBy({ id: quizId });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado!');
+    if (!quiz) throw new NotFoundException('Usuário não encontrado!');
+
+    const newAttemp = {
+      score,
+      correct_anwser,
+      time_spent,
+      total_questions,
+      completed_at,
+    };
+
+    const attemp = await this.attempRepository.create(newAttemp);
+    await this.attempRepository.save(attemp);
+
+    return { attemp };
   }
 
   findAll(userId: number, quizId: number) {
