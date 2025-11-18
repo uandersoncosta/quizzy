@@ -48,15 +48,23 @@ export class AttempsService {
     return { attemp };
   }
 
-  findAll(userId: number, quizId: number) {
+  async findAll(userId: number, quizId: number) {
+    const user = await this.userRepository.findOne(userId);
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado!');
+    if (!quiz) throw new NotFoundException('Usuário não encontrado!');
+
+    const attemp = await this.attempRepository.find()
+
     return `This action returns all attemps`;
   }
 
-  findOne(userId: number, quizId: number, attempId: number) {
+  async findOne(userId: number, quizId: number, attempId: number) {
     return `This action returns a #${attempId} attemp`;
   }
 
-  update(
+  async update(
     userId: number,
     quizId: number,
     attempId: number,
@@ -65,7 +73,7 @@ export class AttempsService {
     return `This action updates a #${attempId} attemp`;
   }
 
-  remove(userId: number, quizId: number, attempId: number) {
+  async remove(userId: number, quizId: number, attempId: number) {
     return `This action removes a #${attempId} attemp`;
   }
 }
