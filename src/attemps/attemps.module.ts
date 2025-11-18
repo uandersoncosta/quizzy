@@ -7,7 +7,7 @@ import { Quiz } from 'src/quizzes/entities/quiz.entity';
 import { Users } from 'src/user/entities/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Attemp, Quiz, Users])],
+  imports: [TypeOrmModule.forFeature([Attemp, Quiz]), Users],
   controllers: [AttempsController],
   providers: [AttempsService],
 })
