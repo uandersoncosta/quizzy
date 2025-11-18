@@ -6,6 +6,7 @@ import { Attemp } from './entities/attemp.entity';
 import { Repository } from 'typeorm';
 import { Quiz } from 'src/quizzes/entities/quiz.entity';
 import { Users } from 'src/user/entities/users.entity';
+import { UsersService } from 'src/user/users.service';
 
 @Injectable()
 export class AttempsService {
@@ -17,7 +18,7 @@ export class AttempsService {
     private readonly quizRepository: Repository<Quiz>,
 
     @InjectRepository(Users)
-    private readonly userRepository: Repository<Users>,
+    private readonly userRepository: UsersService,
   ) {}
 
   async create(
@@ -27,8 +28,8 @@ export class AttempsService {
   ) {
     const { score, completed_at, correct_anwser, time_spent, total_questions } =
       createAttempDto;
-    const user = await this.userRepository.findOneBy({ id: userId });
-    const quiz = await this.userRepository.findOneBy({ id: quizId });
+    const user = await this.userRepository.findOne(userId);
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
 
     if (!user) throw new NotFoundException('Usuário não encontrado!');
     if (!quiz) throw new NotFoundException('Usuário não encontrado!');
