@@ -79,7 +79,28 @@ export class AttempsService {
     attempId: number,
     updateAttempDto: UpdateAttempDto,
   ) {
-    return `This action updates a #${attempId} attemp`;
+    const user = await this.userRepository.findOne(userId);
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+    const { score, correct_anwser, total_questions, time_spent } =
+      updateAttempDto;
+
+    if (!user) throw new NotFoundException('Usuário não encontrado!');
+    if (!quiz) throw new NotFoundException('Usuário não encontrado!');
+
+    const newAttemp = {
+      score,
+      correct_anwser,
+      total_questions,
+      time_spent,
+    };
+
+    const attemp = await this.attempRepository.preload({
+      id: attempId,
+      completed_at: new Date(),
+      ...newAttemp,
+    });
+
+    return { attemp };
   }
 
   async remove(userId: number, quizId: number, attempId: number) {
