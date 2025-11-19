@@ -83,6 +83,16 @@ export class AttempsService {
   }
 
   async remove(userId: number, quizId: number, attempId: number) {
-    return `This action removes a #${attempId} attemp`;
+    const user = await this.userRepository.findOne(userId);
+    const quiz = await this.quizRepository.findOneBy({ id: quizId });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado!');
+    if (!quiz) throw new NotFoundException('Usuário não encontrado!');
+
+    const attemp = await this.attempRepository.findOneBy({ id: attempId });
+    if (!attemp) throw new NotFoundException('Este attemp não foi encontrado!');
+
+    const removed = await this.attempRepository.remove(attemp);
+    return { removed };
   }
 }
